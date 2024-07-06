@@ -4,10 +4,12 @@ import Loader from "./components/Loader";
 import Container from "./Container";
 import Error from "./components/Error";
 import Start from "./components/Start";
+import Questions from "./components/Questions";
 
 enum ActionKind {
   dataReceived = "dataReceived",
   dataFailed = "dataFailed",
+  start = "start",
 }
 
 type StateProps = {
@@ -24,6 +26,7 @@ const initial = {
   questions: [],
   // "loading" "error" "ready" "active"
   status: "loading",
+  index: 0,
 };
 
 const reducer = (state: StateProps, action: Actions) => {
@@ -35,16 +38,19 @@ const reducer = (state: StateProps, action: Actions) => {
     case ActionKind.dataFailed:
       return { ...state, status: "error" };
       break;
+
+    case ActionKind.start:
+      return { ...state, status: "start" };
+      break;
     default:
       return state;
   }
 };
 
 export default function App() {
-  const [state, dispatch] = useReducer<React.ReducerWithoutAction<any>>(
-    reducer,
-    initial
-  );
+  const [{ questions, status, index }, dispatch] = useReducer<
+    React.ReducerWithoutAction<any>
+  >(reducer, initial);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,15 +67,18 @@ export default function App() {
     fetchData();
   }, []);
 
-  const numberOfQuestions = state.questions;
+  const numberOfQuestions = questions;
   return (
     <div className="app">
       <Header />
 
       <Container>
-        {state.status === "loading" && <Loader />}
-        {state.status === "ready" && <Start question={numberOfQuestions} />}
-        {state.status === "error" && <Error />}
+        {status === "loading" && <Loader />}
+        {status === "ready" && (
+          <Start dispatch={dispatch} question={numberOfQuestions} />
+        )}
+        {status === "error" && <Error />}
+        {status === "start" && <Questions question={questions[index]} />}
       </Container>
     </div>
   );

@@ -1,4 +1,4 @@
-export type Questions = {
+export type QuestionsProps = {
   question: string;
   options: string[];
   correctOption: number;

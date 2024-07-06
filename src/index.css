@@ -2,7 +2,7 @@
 
 :root {
   --color-darkest: #000;
-  --color-dark: #495057;
+  --color-dark: #fff000;
   --color-medium: #ced4da;
   --color-light: #f1f3f5;
 
@@ -46,6 +46,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.app-header h1 {
+  color: var(--color-dark);
 }
 
 .error {
@@ -118,9 +121,9 @@ progress {
 .btn {
   display: block;
   font-family: inherit;
-  color: inherit;
+  color: var(--color-darkest);
   font-size: 2rem;
-  border: 2px solid var(--color-dark);
+  border: 1px solid var(--color-dark);
   background-color: var(--color-dark);
   padding: 1.2rem 2.4rem;
   cursor: pointer;
@@ -130,6 +133,7 @@ progress {
 
 .btn:not([disabled]):hover {
   background-color: var(--color-darkest);
+  color: var(--color-dark);
 }
 
 .btn-option:not([disabled]):hover {
