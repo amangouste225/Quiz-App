@@ -10,6 +10,7 @@ enum ActionKind {
   dataReceived = "dataReceived",
   dataFailed = "dataFailed",
   start = "start",
+  newAnswer = "newAnswer",
 }
 
 type StateProps = {
@@ -27,6 +28,7 @@ const initial = {
   // "loading" "error" "ready" "active"
   status: "loading",
   index: 0,
+  answer: null,
 };
 
 const reducer = (state: StateProps, action: Actions) => {
@@ -42,13 +44,17 @@ const reducer = (state: StateProps, action: Actions) => {
     case ActionKind.start:
       return { ...state, status: "start" };
       break;
+
+    case ActionKind.newAnswer:
+      return { ...state, answer: action.payload };
+      break;
     default:
       return state;
   }
 };
 
 export default function App() {
-  const [{ questions, status, index }, dispatch] = useReducer<
+  const [{ questions, status, index, answer }, dispatch] = useReducer<
     React.ReducerWithoutAction<any>
   >(reducer, initial);
 
@@ -78,7 +84,13 @@ export default function App() {
           <Start dispatch={dispatch} question={numberOfQuestions} />
         )}
         {status === "error" && <Error />}
-        {status === "start" && <Questions question={questions[index]} />}
+        {status === "start" && (
+          <Questions
+            question={questions[index]}
+            dispatch={dispatch}
+            answer={answer}
+          />
+        )}
       </Container>
     </div>
   );
