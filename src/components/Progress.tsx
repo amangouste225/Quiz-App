@@ -1,5 +1,3 @@
-import Questions from "./Questions";
-
 type Props = {
   index: number;
   numberOfQuestions: number;

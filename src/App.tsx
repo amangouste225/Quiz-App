@@ -1,10 +1,11 @@
-import { act, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import Container from "./Container";
 import Error from "./components/Error";
 import Start from "./components/Start";
 import Questions from "./components/Questions";
+import { QuestionsProps } from "./types/types";
 
 enum ActionKind {
   dataReceived = "dataReceived",
@@ -17,10 +18,11 @@ enum ActionKind {
 
 type StateProps = {
   status: string;
-  question: never[];
+  question: QuestionsProps;
   index: number;
   questions: any;
   points: number;
+  answer: null;
 };
 
 type Actions = {
@@ -53,6 +55,7 @@ const reducer = (state: StateProps, action: Actions) => {
 
     case ActionKind.newAnswer:
       const question = state.questions.at(state.index);
+
       return {
         ...state,
         answer: action.payload,
@@ -73,7 +76,7 @@ const reducer = (state: StateProps, action: Actions) => {
 
 export default function App() {
   const [{ questions, status, index, answer, points }, dispatch] = useReducer<
-    React.ReducerWithoutAction<any>
+    React.ReducerWithoutAction<StateProps>
   >(reducer, initial);
 
   useEffect(() => {
@@ -81,9 +84,7 @@ export default function App() {
       try {
         const res = await fetch("http://localhost:3000/questions");
         const data = await res.json();
-        setTimeout(() => {
-          dispatch({ type: ActionKind.dataReceived, payload: data });
-        }, 2000);
+        dispatch({ type: ActionKind.dataReceived, payload: data });
       } catch (error) {
         dispatch({ type: ActionKind.dataFailed, payload: error });
       }
@@ -93,7 +94,10 @@ export default function App() {
 
   const numberOfQuestions = questions.length;
 
-  const sum = questions.reduce((total, item) => total + item.points, 0);
+  const sum = questions.reduce(
+    (total: number, item: QuestionsProps) => total + item.points,
+    0
+  );
 
   return (
     <div className="app">

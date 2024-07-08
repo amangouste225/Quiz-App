@@ -9,7 +9,7 @@ type Props = {
   points: number;
   index: number;
   numberOfQuestions: number;
-  num: number;
+  sum: number;
 };
 
 export default function Questions({
