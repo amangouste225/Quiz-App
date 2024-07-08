@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { act, useEffect, useReducer } from "react";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import Container from "./Container";
@@ -12,6 +12,7 @@ enum ActionKind {
   active = "active",
   newAnswer = "newAnswer",
   points = "points",
+  nextQuestion = "nextQuestion",
 }
 
 type StateProps = {
@@ -55,12 +56,16 @@ const reducer = (state: StateProps, action: Actions) => {
       return {
         ...state,
         answer: action.payload,
+
         points:
           action.payload === question.correctOption
             ? state.points + question.points
             : state.points,
       };
       break;
+
+    case ActionKind.nextQuestion:
+      return { ...state, index: action.payload, answer: null };
     default:
       return state;
   }
@@ -103,6 +108,7 @@ export default function App() {
             answer={answer}
             dispatch={dispatch}
             points={points}
+            index={index}
           />
         )}
       </Container>

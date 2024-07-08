@@ -7,7 +7,7 @@ type Props = {
   points: number;
 };
 
-export default function Options({ question, answer, dispatch, points }: Props) {
+export default function Options({ question, answer, dispatch }: Props) {
   return (
     <div className="options">
       {question.options.map((option, index) => (

@@ -6,6 +6,7 @@ type Props = {
   answer: null;
   dispatch: () => void;
   points: number;
+  index: number;
 };
 
 export default function Questions({
@@ -13,6 +14,7 @@ export default function Questions({
   answer,
   dispatch,
   points,
+  index,
 }: Props) {
   return (
     <div>
@@ -23,6 +25,15 @@ export default function Questions({
         answer={answer}
         dispatch={dispatch}
       />
+
+      {answer !== null && (
+        <button
+          className="btn btn-ui"
+          onClick={() => dispatch({ type: "nextQuestion", payload: index + 1 })}
+        >
+          Next
+        </button>
+      )}
     </div>
   );
 }
