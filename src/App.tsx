@@ -9,13 +9,17 @@ import Questions from "./components/Questions";
 enum ActionKind {
   dataReceived = "dataReceived",
   dataFailed = "dataFailed",
-  start = "start",
+  active = "active",
   newAnswer = "newAnswer",
+  points = "points",
 }
 
 type StateProps = {
   status: string;
   question: never[];
+  index: number;
+  questions: any;
+  points: number;
 };
 
 type Actions = {
@@ -29,6 +33,7 @@ const initial = {
   status: "loading",
   index: 0,
   answer: null,
+  points: 0,
 };
 
 const reducer = (state: StateProps, action: Actions) => {
@@ -41,19 +46,28 @@ const reducer = (state: StateProps, action: Actions) => {
       return { ...state, status: "error" };
       break;
 
-    case ActionKind.start:
-      return { ...state, status: "start" };
+    case ActionKind.active:
+      return { ...state, status: "active" };
       break;
 
     case ActionKind.newAnswer:
-      return { ...state, answer: action.payload };
+      const question = state.questions.at(state.index);
+      return {
+        ...state,
+        answer: action.payload,
+        points:
+          action.payload === question.correctOption
+            ? state.points + question.points
+            : state.points,
+      };
+      break;
     default:
       return state;
   }
 };
 
 export default function App() {
-  const [{ questions, status, index, answer }, dispatch] = useReducer<
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer<
     React.ReducerWithoutAction<any>
   >(reducer, initial);
 
@@ -83,11 +97,12 @@ export default function App() {
           <Start dispatch={dispatch} question={numberOfQuestions} />
         )}
         {status === "error" && <Error />}
-        {status === "start" && (
+        {status === "active" && (
           <Questions
             question={questions[index]}
             answer={answer}
             dispatch={dispatch}
+            points={points}
           />
         )}
       </Container>

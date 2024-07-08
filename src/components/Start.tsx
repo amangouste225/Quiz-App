@@ -12,7 +12,7 @@ export default function Start({ question, dispatch }: QuestionProps) {
       <h3>{question.length} questions to test your React mastery</h3>
       <button
         className="btn btn-ui"
-        onClick={() => dispatch({ type: "start" })}
+        onClick={() => dispatch({ type: "active" })}
       >
         Let's start
       </button>

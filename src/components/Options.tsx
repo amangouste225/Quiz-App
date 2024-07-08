@@ -4,9 +4,10 @@ type Props = {
   question: QuestionsProps;
   answer: null;
   dispatch: () => void;
+  points: number;
 };
 
-export default function Options({ question, answer, dispatch }: Props) {
+export default function Options({ question, answer, dispatch, points }: Props) {
   return (
     <div className="options">
       {question.options.map((option, index) => (
