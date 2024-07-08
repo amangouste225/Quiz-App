@@ -65,7 +65,7 @@ const reducer = (state: StateProps, action: Actions) => {
       break;
 
     case ActionKind.nextQuestion:
-      return { ...state, index: action.payload, answer: null };
+      return { ...state, index: state.index + 1, answer: null };
     default:
       return state;
   }
@@ -91,7 +91,8 @@ export default function App() {
     fetchData();
   }, []);
 
-  const numberOfQuestions = questions;
+  const numberOfQuestions = questions.length;
+
   return (
     <div className="app">
       <Header />
@@ -99,7 +100,7 @@ export default function App() {
       <Container>
         {status === "loading" && <Loader />}
         {status === "ready" && (
-          <Start dispatch={dispatch} question={numberOfQuestions} />
+          <Start dispatch={dispatch} question={questions} />
         )}
         {status === "error" && <Error />}
         {status === "active" && (
@@ -109,6 +110,7 @@ export default function App() {
             dispatch={dispatch}
             points={points}
             index={index}
+            numberOfQuestions={numberOfQuestions}
           />
         )}
       </Container>

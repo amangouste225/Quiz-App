@@ -1,5 +1,6 @@
 import { QuestionsProps } from "../types/types";
 import Options from "./Options";
+import Progress from "./Progress";
 
 type Props = {
   question: QuestionsProps;
@@ -7,6 +8,7 @@ type Props = {
   dispatch: () => void;
   points: number;
   index: number;
+  numberOfQuestions: number;
 };
 
 export default function Questions({
@@ -15,9 +17,11 @@ export default function Questions({
   dispatch,
   points,
   index,
+  numberOfQuestions,
 }: Props) {
   return (
     <div>
+      <Progress index={index} numberOfQuestions={numberOfQuestions} />
       <h4>{question.question}</h4>
       <Options
         question={question}
@@ -29,7 +33,7 @@ export default function Questions({
       {answer !== null && (
         <button
           className="btn btn-ui"
-          onClick={() => dispatch({ type: "nextQuestion", payload: index + 1 })}
+          onClick={() => dispatch({ type: "nextQuestion" })}
         >
           Next
         </button>
