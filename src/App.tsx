@@ -47,7 +47,6 @@ const reducer = (state: StateProps, action: Actions) => {
 
     case ActionKind.newAnswer:
       return { ...state, answer: action.payload };
-      break;
     default:
       return state;
   }
@@ -87,8 +86,8 @@ export default function App() {
         {status === "start" && (
           <Questions
             question={questions[index]}
-            dispatch={dispatch}
             answer={answer}
+            dispatch={dispatch}
           />
         )}
       </Container>

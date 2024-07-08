@@ -3,15 +3,15 @@ import Options from "./Options";
 
 type Props = {
   question: QuestionsProps;
-  dispatch: () => void;
   answer: null;
+  dispatch: () => void;
 };
 
-export default function Questions({ question, dispatch, answer }: Props) {
+export default function Questions({ question, answer, dispatch }: Props) {
   return (
     <div>
       <h4>{question.question}</h4>
-      <Options question={question} onclick={dispatch} answer={answer} />
+      <Options question={question} answer={answer} dispatch={dispatch} />
     </div>
   );
 }
