@@ -4,7 +4,7 @@
   --color-darkest: #000;
   --color-dark: #fff000;
   --color-medium: #ced4da;
-  --color-light: #f1f3f5;
+  --color-light: #fff;
 
   --color-theme: #1098ad;
   --color-accent: #ffa94d;
@@ -110,7 +110,7 @@ progress {
 }
 
 ::-webkit-progress-bar {
-  background-color: var(--color-medium);
+  background-color: var(--color-light);
   border-radius: 100px;
 }
 ::-webkit-progress-value {

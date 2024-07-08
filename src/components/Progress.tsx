@@ -1,12 +1,21 @@
+import Questions from "./Questions";
+
 type Props = {
   index: number;
   numberOfQuestions: number;
+  sum: number;
+  points: number;
 };
 
-export default function Progress({ index, numberOfQuestions }: Props) {
+export default function Progress({
+  index,
+  numberOfQuestions,
+  sum,
+  points,
+}: Props) {
   return (
     <header className="progress">
-      <progress />
+      <progress max={numberOfQuestions} value={index} />
       <p>
         Question{" "}
         <strong>
@@ -14,7 +23,7 @@ export default function Progress({ index, numberOfQuestions }: Props) {
         </strong>
       </p>
       <p>
-        <strong>0</strong> / X points
+        <strong>{points} </strong> / {sum} points
       </p>
     </header>
   );

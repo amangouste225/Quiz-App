@@ -9,6 +9,7 @@ type Props = {
   points: number;
   index: number;
   numberOfQuestions: number;
+  num: number;
 };
 
 export default function Questions({
@@ -18,10 +19,16 @@ export default function Questions({
   points,
   index,
   numberOfQuestions,
+  sum,
 }: Props) {
   return (
     <div>
-      <Progress index={index} numberOfQuestions={numberOfQuestions} />
+      <Progress
+        index={index}
+        numberOfQuestions={numberOfQuestions}
+        sum={sum}
+        points={points}
+      />
       <h4>{question.question}</h4>
       <Options
         question={question}

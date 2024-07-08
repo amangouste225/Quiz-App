@@ -93,6 +93,8 @@ export default function App() {
 
   const numberOfQuestions = questions.length;
 
+  const sum = questions.reduce((total, item) => total + item.points, 0);
+
   return (
     <div className="app">
       <Header />
@@ -111,6 +113,7 @@ export default function App() {
             points={points}
             index={index}
             numberOfQuestions={numberOfQuestions}
+            sum={sum}
           />
         )}
       </Container>
