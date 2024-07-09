@@ -22,7 +22,7 @@ export default function Questions({
   sum,
 }: Props) {
   return (
-    <div>
+    <div className="questions">
       <Progress
         index={index}
         numberOfQuestions={numberOfQuestions}
