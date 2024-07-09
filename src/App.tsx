@@ -6,6 +6,7 @@ import Error from "./components/Error";
 import Start from "./components/Start";
 import Questions from "./components/Questions";
 import { QuestionsProps } from "./types/types";
+import FinishScreen from "./components/FinishScreen";
 
 enum ActionKind {
   dataReceived = "dataReceived",
@@ -14,6 +15,7 @@ enum ActionKind {
   newAnswer = "newAnswer",
   points = "points",
   nextQuestion = "nextQuestion",
+  finish = "finish",
 }
 
 type StateProps = {
@@ -69,6 +71,10 @@ const reducer = (state: StateProps, action: Actions) => {
 
     case ActionKind.nextQuestion:
       return { ...state, index: state.index + 1, answer: null };
+      break;
+    case ActionKind.finish:
+      return { ...state, status: "finished" };
+      break;
     default:
       return state;
   }
@@ -94,7 +100,7 @@ export default function App() {
 
   const numberOfQuestions = questions.length;
 
-  const sum = questions.reduce(
+  const sumAmount = questions.reduce(
     (total: number, item: QuestionsProps) => total + item.points,
     0
   );
@@ -117,8 +123,12 @@ export default function App() {
             points={points}
             index={index}
             numberOfQuestions={numberOfQuestions}
-            sum={sum}
+            sum={sumAmount}
           />
+        )}
+
+        {status === "finished" && (
+          <FinishScreen points={points} sum={sumAmount} />
         )}
       </Container>
     </div>

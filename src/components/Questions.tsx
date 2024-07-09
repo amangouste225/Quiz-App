@@ -37,12 +37,20 @@ export default function Questions({
         dispatch={dispatch}
       />
 
-      {answer !== null && (
+      {answer !== null && index <= 13 && (
         <button
           className="btn btn-ui"
           onClick={() => dispatch({ type: "nextQuestion" })}
         >
           Next
+        </button>
+      )}
+      {answer !== null && index >= 14 && (
+        <button
+          className="btn btn-ui"
+          onClick={() => dispatch({ type: "finish" })}
+        >
+          Finish
         </button>
       )}
     </div>
