@@ -1,3 +1,4 @@
+import Timer from "../Timer";
 import { QuestionsProps } from "../types/types";
 import Options from "./Options";
 import Progress from "./Progress";
@@ -10,6 +11,7 @@ type Props = {
   index: number;
   numberOfQuestions: number;
   sum: number;
+  secondRemaining: number;
 };
 
 export default function Questions({
@@ -20,6 +22,7 @@ export default function Questions({
   index,
   numberOfQuestions,
   sum,
+  secondRemaining,
 }: Props) {
   return (
     <div className="questions">
@@ -37,22 +40,25 @@ export default function Questions({
         dispatch={dispatch}
       />
 
-      {answer !== null && index <= 13 && (
-        <button
-          className="btn btn-ui"
-          onClick={() => dispatch({ type: "nextQuestion" })}
-        >
-          Next
-        </button>
-      )}
-      {answer !== null && index >= 14 && (
-        <button
-          className="btn btn-ui"
-          onClick={() => dispatch({ type: "finish" })}
-        >
-          Finish
-        </button>
-      )}
+      <div className="hflex">
+        <Timer secondRemaining={secondRemaining} dispatch={dispatch} />
+        {answer !== null && index <= 13 && (
+          <button
+            className="btn btn-ui"
+            onClick={() => dispatch({ type: "nextQuestion" })}
+          >
+            Next
+          </button>
+        )}
+        {answer !== null && index >= 14 && (
+          <button
+            className="btn btn-ui"
+            onClick={() => dispatch({ type: "finish" })}
+          >
+            Finish
+          </button>
+        )}
+      </div>
     </div>
   );
 }

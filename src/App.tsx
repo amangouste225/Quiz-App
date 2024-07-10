@@ -17,6 +17,7 @@ enum ActionKind {
   nextQuestion = "nextQuestion",
   finish = "finish",
   restart = "restart",
+  tick = "tick",
 }
 
 type StateProps = {
@@ -27,6 +28,7 @@ type StateProps = {
   points: number;
   answer: null;
   highlight: number;
+  secondRemaining: number;
 };
 
 type Actions = {
@@ -42,39 +44,34 @@ const initial = {
   answer: null,
   points: 0,
   highlight: 0,
+  secondRemaining: null,
 };
 
 const reducer = (state: StateProps, action: Actions) => {
   switch (action.type) {
     case ActionKind.dataReceived:
       return { ...state, questions: action.payload, status: "ready" };
-      break;
-
     case ActionKind.dataFailed:
       return { ...state, status: "error" };
-      break;
-
     case ActionKind.active:
-      return { ...state, status: "active" };
-      break;
-
+      return {
+        ...state,
+        status: "active",
+        secondRemaining: state.questions.length * 1,
+      };
     case ActionKind.newAnswer:
       const question = state.questions.at(state.index);
-
       return {
         ...state,
         answer: action.payload,
-
         points:
           action.payload === question.correctOption
             ? state.points + question.points
             : state.points,
       };
-      break;
 
     case ActionKind.nextQuestion:
       return { ...state, index: state.index + 1, answer: null };
-      break;
     case ActionKind.finish:
       return {
         ...state,
@@ -82,18 +79,25 @@ const reducer = (state: StateProps, action: Actions) => {
         highlight:
           state.points > state.highlight ? state.points : state.highlight,
       };
-      break;
     case ActionKind.restart:
       return { ...initial, questions: state.questions, status: "ready" };
-      break;
+
+    case ActionKind.tick:
+      return {
+        ...state,
+        secondRemaining: state.secondRemaining - 1,
+        status: state.secondRemaining === 0 ? "finished" : state.status,
+      };
     default:
       throw new Error("Action unknown");
   }
 };
 
 export default function App() {
-  const [{ questions, status, index, answer, points, highlight }, dispatch] =
-    useReducer<React.ReducerWithoutAction<StateProps>>(reducer, initial);
+  const [
+    { questions, status, index, answer, points, highlight, secondRemaining },
+    dispatch,
+  ] = useReducer<React.ReducerWithoutAction<StateProps>>(reducer, initial);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,6 +138,7 @@ export default function App() {
             index={index}
             numberOfQuestions={numberOfQuestions}
             sum={sumAmount}
+            secondRemaining={secondRemaining}
           />
         )}
 
