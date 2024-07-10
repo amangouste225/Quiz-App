@@ -57,7 +57,7 @@ const reducer = (state: StateProps, action: Actions) => {
       return {
         ...state,
         status: "active",
-        secondRemaining: state.questions.length * 1,
+        secondRemaining: state.questions.length * 15,
       };
     case ActionKind.newAnswer:
       const question = state.questions.at(state.index);
