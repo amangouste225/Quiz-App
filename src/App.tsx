@@ -29,12 +29,12 @@ type StateProps = {
 
 type Actions = {
   type: ActionKind;
-  payload: any;
+  payload?: number;
 };
 
 const initial = {
   questions: [],
-  // "loading" "error" "ready" "active"
+
   status: "loading",
   index: 0,
   answer: null,
