@@ -16,6 +16,7 @@ enum ActionKind {
   points = "points",
   nextQuestion = "nextQuestion",
   finish = "finish",
+  restart = "restart",
 }
 
 type StateProps = {
@@ -25,6 +26,7 @@ type StateProps = {
   questions: any;
   points: number;
   answer: null;
+  highlight: number;
 };
 
 type Actions = {
@@ -39,6 +41,7 @@ const initial = {
   index: 0,
   answer: null,
   points: 0,
+  highlight: 0,
 };
 
 const reducer = (state: StateProps, action: Actions) => {
@@ -73,17 +76,24 @@ const reducer = (state: StateProps, action: Actions) => {
       return { ...state, index: state.index + 1, answer: null };
       break;
     case ActionKind.finish:
-      return { ...state, status: "finished" };
+      return {
+        ...state,
+        status: "finished",
+        highlight:
+          state.points > state.highlight ? state.points : state.highlight,
+      };
+      break;
+    case ActionKind.restart:
+      return { ...initial, questions: state.questions, status: "ready" };
       break;
     default:
-      return state;
+      throw new Error("Action unknown");
   }
 };
 
 export default function App() {
-  const [{ questions, status, index, answer, points }, dispatch] = useReducer<
-    React.ReducerWithoutAction<StateProps>
-  >(reducer, initial);
+  const [{ questions, status, index, answer, points, highlight }, dispatch] =
+    useReducer<React.ReducerWithoutAction<StateProps>>(reducer, initial);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,7 +138,12 @@ export default function App() {
         )}
 
         {status === "finished" && (
-          <FinishScreen points={points} sum={sumAmount} />
+          <FinishScreen
+            points={points}
+            sum={sumAmount}
+            highlight={highlight}
+            dispatch={dispatch}
+          />
         )}
       </Container>
     </div>

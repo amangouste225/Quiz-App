@@ -1,8 +1,15 @@
 type Props = {
   points: number;
   sum: number;
+  highlight: number;
+  dispatch: () => void;
 };
-export default function FinishScreen({ points, sum }: Props) {
+export default function FinishScreen({
+  points,
+  sum,
+  highlight,
+  dispatch,
+}: Props) {
   const percentage = (points / sum) * 100;
 
   let emoji;
@@ -24,6 +31,7 @@ export default function FinishScreen({ points, sum }: Props) {
       emoji === "🌎";
   }
 
+  console.log(highlight);
   return (
     <>
       <p className="result">
@@ -33,7 +41,14 @@ export default function FinishScreen({ points, sum }: Props) {
           {points} out of {sum} ({Math.ceil(percentage)}% ){emoji}
         </strong>
       </p>
-      <p className="highscore"> (highscore : X points )</p>
+      <p className="highscore"> (highscore : {highlight} points )</p>
+
+      <button
+        className="btn btn-ui"
+        onClick={() => dispatch({ type: "restart" })}
+      >
+        Restart Quiz
+      </button>
     </>
   );
 }
