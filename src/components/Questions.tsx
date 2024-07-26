@@ -1,47 +1,33 @@
+import { useQuestions } from "../context/QuestionContext";
 import Timer from "../Timer";
-import { QuestionsProps } from "../types/types";
+import { TQuestionsContext } from "../types/types";
 import Options from "./Options";
 import Progress from "./Progress";
 
-type Props = {
-  question: QuestionsProps;
-  answer: null;
-  dispatch: () => void;
-  points: number;
-  index: number;
-  numberOfQuestions: number;
-  sum: number;
-  secondRemaining: number;
-};
+export default function Questions() {
+  const {
+    question,
+    index,
+    sumAmount,
+    numberOfQuestions,
+    points,
+    dispatch,
+    answer,
+  } = useQuestions() as TQuestionsContext;
 
-export default function Questions({
-  question,
-  answer,
-  dispatch,
-  points,
-  index,
-  numberOfQuestions,
-  sum,
-  secondRemaining,
-}: Props) {
   return (
     <div className="questions">
       <Progress
         index={index}
         numberOfQuestions={numberOfQuestions}
-        sum={sum}
+        sum={sumAmount}
         points={points}
       />
       <h4>{question.question}</h4>
-      <Options
-        question={question}
-        points={points}
-        answer={answer}
-        dispatch={dispatch}
-      />
+      <Options />
 
       <div className="hflex">
-        <Timer secondRemaining={secondRemaining} dispatch={dispatch} />
+        <Timer />
         {answer !== null && index <= 13 && (
           <button
             className="btn btn-ui"

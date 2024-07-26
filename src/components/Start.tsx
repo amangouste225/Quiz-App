@@ -1,15 +1,12 @@
-import { QuestionsProps } from "../types/types";
+import { useQuestions } from "../context/QuestionContext";
+import { TQuestionsContext } from "../types/types";
 
-type QuestionProps = {
-  question: QuestionsProps[];
-  dispatch: any;
-};
-
-export default function Start({ question, dispatch }: QuestionProps) {
+export default function Start() {
+  const { questions, dispatch } = useQuestions() as TQuestionsContext;
   return (
     <div className="start">
       <h2>Welcome to the React Quiz</h2>
-      <h3>{question.length} questions to test your React mastery</h3>
+      <h3>{questions.length} questions to test your React mastery</h3>
       <button
         className="btn btn-ui"
         onClick={() => dispatch({ type: "active" })}

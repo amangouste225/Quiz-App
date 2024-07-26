@@ -1,13 +1,11 @@
-import { QuestionsProps } from "../types/types";
+import { useQuestions } from "../context/QuestionContext";
+import { TQuestionsContext } from "../types/types";
 
-type Props = {
-  question: QuestionsProps;
-  answer: null;
-  dispatch: () => void;
-  points: number;
-};
+export default function Options() {
+  const { questions, dispatch, answer, index } =
+    useQuestions() as TQuestionsContext;
 
-export default function Options({ question, answer, dispatch }: Props) {
+  const question = questions.at(index);
   return (
     <div className="options">
       {question.options.map((option, index) => (

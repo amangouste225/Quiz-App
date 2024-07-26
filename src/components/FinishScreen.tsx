@@ -1,16 +1,10 @@
-type Props = {
-  points: number;
-  sum: number;
-  highlight: number;
-  dispatch: () => void;
-};
-export default function FinishScreen({
-  points,
-  sum,
-  highlight,
-  dispatch,
-}: Props) {
-  const percentage = (points / sum) * 100;
+import { useQuestions } from "../context/QuestionContext";
+import { TQuestionsContext } from "../types/types";
+
+export default function FinishScreen() {
+  const { points, dispatch, sumAmount, highlight } =
+    useQuestions() as TQuestionsContext;
+  const percentage = (points / sumAmount) * 100;
 
   let emoji;
   switch (true) {
@@ -30,15 +24,13 @@ export default function FinishScreen({
     default:
       emoji === "🌎";
   }
-
-  console.log(highlight);
   return (
     <>
       <p className="result">
         Your scored
         <strong>
           {" "}
-          {points} out of {sum} ({Math.ceil(percentage)}% ){emoji}
+          {points} out of {sumAmount} ({Math.ceil(percentage)}% ){emoji}
         </strong>
       </p>
       <p className="highscore"> (highscore : {highlight} points )</p>

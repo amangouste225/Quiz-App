@@ -1,11 +1,9 @@
 import { useEffect } from "react";
+import { useQuestions } from "./context/QuestionContext";
+import { TQuestionsContext } from "./types/types";
 
-type Props = {
-  secondRemaining: number;
-  dispatch: () => void;
-};
-
-export default function Timer({ secondRemaining, dispatch }: Props) {
+export default function Timer() {
+  const { secondRemaining, dispatch } = useQuestions() as TQuestionsContext;
   const mins = Math.floor(secondRemaining / 60);
   const secs = Math.floor(secondRemaining % 60);
 
